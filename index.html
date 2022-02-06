@@ -7,20 +7,16 @@
 <script id="vertex-shader" type="x-shader/x-vertex">
 attribute vec4 vPosition;
 
-uniform float deltaXMarius;
-uniform float deltaYMarius;
-
-uniform float goldOffsetX;
-uniform float goldOffsetY;
+uniform float offsetX;
+uniform float offsetY;
 
 void
 main()
 {
 	vec4 t = vPosition;
-	t.x = t.x + deltaXMarius;
-	t.y = t.y + deltaYMarius;
-	t.x = t.x + goldOffsetX;
-	t.y = t.y + goldOffsetY;
+	t.x = t.x + offsetX;
+	t.y = t.y + offsetY;
+
 	gl_Position = t;
 }
 </script>
