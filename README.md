@@ -2,4 +2,4 @@
 
 Verkefni 1 í tölvugrafík
 
-Hlekkur á vefsíðu forritsins er [hér](https://steinarlogi.github.io/vef-v1)
+Hlekkur á vefsíðu forritsins er [hér](https://steinarlogi.github.io/tol-v1)
