@@ -262,71 +262,74 @@ function spawnMonsters() {
 }
 
 function render() {
-    if(currentState == GAME) {
-      gl.clearColor(0.9, 0.9, 0.9, 1.0);
-      calculateMovements();
-      var collision = checkCollisionsCoin();
-      checkCollisionMonster();
-      spawnMonsters();
 
-      //Teikna marius
-      gl.uniform1f(offsetXLoc, deltaXMarius);
-      gl.uniform1f(offsetYLoc, deltaYMarius);
-
-      gl.clear(gl.COLOR_BUFFER_BIT);
-      gl.bindBuffer(gl.ARRAY_BUFFER, mariusBuffer);
-      gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
-      gl.uniform4fv(colorLoc, flatten(colorMarius));
-      gl.drawArrays(gl.TRIANGLES, 0, mariusVertices.length/2);
-
-      if(collision) {
-        points += 1;
-        var pointsParagraph = document.getElementById("points");
-        pointsParagraph.innerHTML = points;
-        newPositionForGoldCoin();
-        if(points >= 10) {
-          points = 0;
-          deltaXMarius = 0;
-          deltaYMarius = 0;
-          monstersOffsetX = [];
-          currentState = FINISHED;
-        }
-      }
-
-      //Teikna gullmolann, passa að hann sé ekki færður á sama hátt og marius
-      gl.uniform1f(offsetXLoc, goldOffsetX);
-      gl.uniform1f(offsetYLoc, goldOffsetY);
-
-      gl.bindBuffer(gl.ARRAY_BUFFER, goldCoinBuffer);
-      gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
-      gl.uniform4fv(colorLoc, flatten(colorGold));
-      gl.drawArrays(gl.TRIANGLE_FAN, 0, goldVertices.length/2);
-
-      //Teikna stigin
-      gl.bindBuffer(gl.ARRAY_BUFFER, pointsBuffer);
-      gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
-      gl.uniform4fv(colorLoc, flatten(colorPoints));
-      gl.uniform1f(offsetYLoc, 0);
-      for(let i = 0; i < points; i++) {
-        gl.uniform1f(offsetXLoc, i*spaceBetweenPoints);
-        gl.drawArrays(gl.LINES, 0, pointsVertices.length/2);
-      }
-
-      //Teikna skrímslin
-      gl.bindBuffer(gl.ARRAY_BUFFER, monsterBuffer);
-      gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
-      gl.uniform4fv(colorLoc, flatten(colorMonsters));
-      gl.uniform1f(offsetYLoc, 0);
-
-      for(let i = 0; i < monstersOffsetX.length; i++) {
-        gl.uniform1f(offsetXLoc, monstersOffsetX[i]);
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, monsterVertices.length/2);
-      }
-
-    } else if(currentState == FINISHED) {
-      gl.clearColor(1.0, 0.5, 0.5, 1.0);
-      gl.clear(gl.COLOR_BUFFER_BIT);
-    }
-
+  setTimeout(function() {
     window.requestAnimFrame(render);
+
+      if(currentState == GAME) {
+        gl.clearColor(0.9, 0.9, 0.9, 1.0);
+        calculateMovements();
+        var collision = checkCollisionsCoin();
+        checkCollisionMonster();
+        spawnMonsters();
+
+        //Teikna marius
+        gl.uniform1f(offsetXLoc, deltaXMarius);
+        gl.uniform1f(offsetYLoc, deltaYMarius);
+
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.bindBuffer(gl.ARRAY_BUFFER, mariusBuffer);
+        gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
+        gl.uniform4fv(colorLoc, flatten(colorMarius));
+        gl.drawArrays(gl.TRIANGLES, 0, mariusVertices.length/2);
+
+        if(collision) {
+          points += 1;
+          var pointsParagraph = document.getElementById("points");
+          pointsParagraph.innerHTML = points;
+          newPositionForGoldCoin();
+          if(points >= 10) {
+            points = 0;
+            deltaXMarius = 0;
+            deltaYMarius = 0;
+            monstersOffsetX = [];
+            currentState = FINISHED;
+          }
+        }
+
+        //Teikna gullmolann, passa að hann sé ekki færður á sama hátt og marius
+        gl.uniform1f(offsetXLoc, goldOffsetX);
+        gl.uniform1f(offsetYLoc, goldOffsetY);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, goldCoinBuffer);
+        gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
+        gl.uniform4fv(colorLoc, flatten(colorGold));
+        gl.drawArrays(gl.TRIANGLE_FAN, 0, goldVertices.length/2);
+
+        //Teikna stigin
+        gl.bindBuffer(gl.ARRAY_BUFFER, pointsBuffer);
+        gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
+        gl.uniform4fv(colorLoc, flatten(colorPoints));
+        gl.uniform1f(offsetYLoc, 0);
+        for(let i = 0; i < points; i++) {
+          gl.uniform1f(offsetXLoc, i*spaceBetweenPoints);
+          gl.drawArrays(gl.LINES, 0, pointsVertices.length/2);
+        }
+
+        //Teikna skrímslin
+        gl.bindBuffer(gl.ARRAY_BUFFER, monsterBuffer);
+        gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
+        gl.uniform4fv(colorLoc, flatten(colorMonsters));
+        gl.uniform1f(offsetYLoc, 0);
+
+        for(let i = 0; i < monstersOffsetX.length; i++) {
+          gl.uniform1f(offsetXLoc, monstersOffsetX[i]);
+          gl.drawArrays(gl.TRIANGLE_STRIP, 0, monsterVertices.length/2);
+        }
+
+      } else if(currentState == FINISHED) {
+        gl.clearColor(1.0, 0.5, 0.5, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+      }
+    }, 100);
 }
